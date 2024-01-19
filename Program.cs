@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,32 +9,62 @@ namespace UC1on7
 {
     using System;
 
-    class Program
+    namespace UC1on7
     {
-        static string GetRandomWord()
+        class Program
         {
-            string[] words = { "no play", "snake", "ladder" };
-            Random rand = new Random();
-            int index = rand.Next(words.Length);
-            return words[index];
-        }
-
-        static void Roll()
-        {
-            Random random = new Random();
-            int value = random.Next(1, 7); 
-            Console.WriteLine("The dice roll gave: " + value);
-            string word = GetRandomWord();
-            Console.WriteLine("Random word: " + word);
-            Console.ReadLine();
-        }
-
-        static void Main()
-        {
-            int[] board = new int[100];
-            for (int i = 0; i < board.Length; i++)
+            static string GetRandomWord()
             {
-                Roll();
+                string[] words = { "no play", "snake", "ladder" };
+                Random rand = new Random();
+                int index = rand.Next(words.Length);
+                return words[index];
+            }
+
+            static int Roll()
+            {
+                Random random = new Random();
+                return random.Next(1, 7); 
+            }
+
+            static void Main()
+            {
+                int playerPosition = 0; 
+                int boardEnd = 100; 
+
+                while (playerPosition < boardEnd)
+                {
+                    int rollValue = Roll();
+                    string action = GetRandomWord();
+
+                    Console.WriteLine($"Rolled: {rollValue}, Action: {action}");
+
+                    switch (action)
+                    {
+                        case "no play":
+                           
+                            break;
+                        case "ladder":
+                            playerPosition += rollValue;
+                            break;
+                        case "snake":
+                            playerPosition -= rollValue;
+                            break;
+                    }
+
+                    if (playerPosition < 0) playerPosition = 0; 
+                    if (playerPosition > boardEnd) playerPosition = boardEnd; 
+
+                    Console.WriteLine($"Player position: {playerPosition}");
+
+                    if (playerPosition == boardEnd)
+                    {
+                        Console.WriteLine("Player reached the winning position!");
+                        break;
+                    }
+
+                    Console.ReadLine(); 
+                }
             }
         }
     }
