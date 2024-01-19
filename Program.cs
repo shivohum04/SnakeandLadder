@@ -24,40 +24,48 @@ namespace UC1on7
 
         static void Main()
         {
-            int playerPosition = 0;
+            int[] playerPositions = new int[2] { 0, 0 };
             int boardEnd = 100;
-            int diceRollCount = 0;
+            int currentPlayer = 0; 
+            bool gameWon = false;
 
-            while (playerPosition < boardEnd)
+            while (!gameWon)
             {
                 int rollValue = Roll();
-                diceRollCount++;
                 string action = GetRandomWord();
 
-                Console.WriteLine($"Roll {diceRollCount}: Rolled {rollValue}, Action: {action}");
+                Console.WriteLine($"Player {currentPlayer + 1} rolled {rollValue}, Action: {action}");
 
                 switch (action)
                 {
                     case "ladder":
-                        if (playerPosition + rollValue <= boardEnd)
+                        playerPositions[currentPlayer] += rollValue;
+                        if (playerPositions[currentPlayer] > boardEnd)
                         {
-                            playerPosition += rollValue;
+                            playerPositions[currentPlayer] -= rollValue; 
                         }
                         break;
                     case "snake":
-                        playerPosition -= rollValue;
-                        if (playerPosition < 0) playerPosition = 0; 
+                        playerPositions[currentPlayer] -= rollValue;
+                        if (playerPositions[currentPlayer] < 0)
+                        {
+                            playerPositions[currentPlayer] = 0; 
+                        }
                         break;
-                       
                 }
 
-                Console.WriteLine($"Player position: {playerPosition}");
+                Console.WriteLine($"Player {currentPlayer + 1}'s position: {playerPositions[currentPlayer]}");
 
-                if (playerPosition == boardEnd)
+                if (playerPositions[currentPlayer] == boardEnd)
                 {
-                    Console.WriteLine($"Player reached the winning position in {diceRollCount} rolls!");
+                    Console.WriteLine($"Player {currentPlayer + 1} won the game!");
                     Console.ReadLine();
-                    break;
+                    gameWon = true;
+
+                }
+                if (action != "ladder" && !gameWon)
+                {
+                    currentPlayer = (currentPlayer + 1) % 2; 
                 }
             }
         }
