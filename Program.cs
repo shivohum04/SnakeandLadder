@@ -13,16 +13,17 @@ namespace UC1on7
     {
         class Program
         {
-            static string GetRandomWord()
+            static string GetRandomWord() 
             {
                 string[] words = { "no play", "snake", "ladder" };
                 Random rand = new Random();
                 int index = rand.Next(words.Length);
-                return words[index];
+       
             }
 
             static int Roll()
             {
+
                 Random random = new Random();
                 return random.Next(1, 7); 
             }
@@ -53,8 +54,7 @@ namespace UC1on7
                     }
 
                     if (playerPosition < 0) playerPosition = 0; 
-                    if (playerPosition > boardEnd) playerPosition = boardEnd; 
-
+                    if (playerPosition > boardEnd) playerPosition = playerPosition; // ensuring the player needs the exact number to reach the winning position.
                     Console.WriteLine($"Player position: {playerPosition}");
 
                     if (playerPosition == boardEnd)
